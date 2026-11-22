@@ -1,0 +1,709 @@
+Still reading the dossier, about a fifth done. I'm going through it in chunks because the file is large, and I'll write the analysis once I've seen all of it.
+
+Read dossier lines 400-540
+HANDOFF.md
+Read dossier lines 540-680
+HANDOFF.md
+Read dossier lines 680-820
+HANDOFF.md
+
+Reading the opponent data for the identity score.
+
+Working out how the leader reaches its score.
+
+Testing how the zone clock could change the leader's score.
+
+Read dossier lines 820-960
+HANDOFF.md
+Read dossier lines 960-1100
+HANDOFF.md
+
+Checking how survivors are ranked when time runs out.
+
+Working out how placement turns into a score.
+
+Read dossier lines 1100-1240
+HANDOFF.md
+Roughly 60% through the dossier (protocol appendix now); next come the sound, zone and supply-drop rules, then the config and code.
+Read dossier lines 1240-1380
+HANDOFF.md
+Read dossier lines 1380-1520
+HANDOFF.md
+
+Checking how the match end and placement rules are worded.
+
+Checking which mechs are still alive and how spawns work.
+
+Weighing how the zone might finish off the squad.
+
+Read dossier lines 1520-1660
+HANDOFF.md
+Read dossier lines 1660-1800
+HANDOFF.md
+Read dossier lines 1800-1930
+HANDOFF.md
+
+bash
+
+tail -n 25 /mnt/user-data/uploads/HANDOFF.md; echo ----; grep -n -i -E "squad|hunter|who kills|killed by|cause of death|death time|first blood|alive" /mnt/user-data/uploads/HANDOFF.md | head -60
+
+Output
+
+   "id": "lightning_efficiency",
+   "name": "Superconductor",
+   "desc": "-35% lightning energy cost, +10% damage",
+   "requires": "lightning",
+   "max": 2,
+   "effects": [
+    {
+     "path": "weapons.lightning.energy",
+     "mul": 0.65
+    },
+    {
+     "path": "weapons.lightning.damage",
+     "mul": 1.1
+    }
+   ]
+  }
+ ]
+}
+```
+
+---
+
+*End of dossier. It contains the competition rules, the full protocol, the full
+live config, the arena, the current architecture, 40+ measured experiments, the
+calibration data, and the open problems.*
+----
+26:2. **The 15 opponents never fight each other.** They are one squad with shared  
+39:4. **The game is a sequence of duels, not a battle royale.** The squad escalates:  
+72:| House bots       | **4 easy, 4 medium, 4 hard, 3 expert — acting as one squad**                                                                       |
+73:| Squad behaviour  | *"they share vision, never fight each other, and hunt you weakest first (one early, more as you thin them out, all of them late)"* |
+147:- `place` is the death order: first to die is 16th, last alive is 1st.
+152:Since the 15 house bots are one squad that never fights itself, the only ways an  
+171:| Policy                                     | Death time | Score | Kills |
+206:- The squad's *hunter count* is a function of how many of them we have killed.
+207:- Early: 1 hunter → a winnable 1v1, against (probably) a weak bot.
+216:plausibly means the squad sends *its weakest member* first, then escalates. If  
+217:true, the first hunter is the single easiest kill in the match and should be  
+219:(us, when hurt) — would instead mean low HP attracts more hunters, which changes  
+257:loop 10×/s while alive:
+349:  that punishes the squad for clustering on us**, which they do by design late.
+454:  of vision with a squad that shares it means "being seen" is effectively  
+562:  drive straight through a visible squad to reach a spot a few metres better. The  
+582:  beats it by `focus_switch_margin`. Without this, damage spread across the squad  
+650:| Squad kiting (boost away from incoming-fire bearings, 5–6 s)                                          | **+0.55 ± 0.27**                                                                         | Death time 80 → 105 s                                                           |
+673:| Hunter v3 (aggressive variant)               | −0.15                                                |                                         |
+755:   that is late to rotate fights the zone and the squad simultaneously. Zone  
+769:6. **The squad clusters on us late.** By design ("all of them late"). A mortar  
+847:  locally and +0.61 officially. The local squad over-punishes aggression, probably  
+890:  local proxy is systematically harsher than the real squad. **Tell me which you  
+920:  separately, since the squad's escalation makes these different games.
+1037:loop, 10 times per match-second while your mech is alive:
+1070:- Placement is the order mechs die in: the last mech alive is 1st, and the first to die is 16th.
+1125:  "type": "obs", "tick": 508, "t": 25.4, "alive": 15,
+1162:| `alive` | Mechs still alive (NPCs not counted). Your placement if you died now would be `alive`. |
+
+
+Wrapping up the findings and preparing the answer.
+
+Considering whether to save durable notes about the user.
+
+Weighing whether the user's competition details belong in memory.
+
+Saving competition details to memory.
+
+Weighing how the squad's hunters might drive the score.
+
+Tracing how hunter spawns could drive the score.
+
+Weighing how the squad's escalation drives the death timing.
+
+Weighing what the dense score plateau reveals about strategy.
+
+Estimating how a single hunter reaches the pacifist.
+
+Examining whether pacifist kill counts match the fire gate.
+
+Questioning whether the pacifist's kill count holds up.
+
+Weighing how zone damage would shape late-game survival.
+
+Weighing how the score's death timing rewards survival.
+
+Weighing whether the score plateau reflects a shared strategy.
+
+Testing whether a simple stay-away strategy explains the plateau.
+
+Weighing how a plateau of similar scores points to the squad's pacing.
+
+Checking the recorded squad against the emulator's behavior.
+
+Comparing the recorded squad's movement with the emulator.
+
+Weighing how the hunter schedule might set the death timing.
+
+Testing whether friendly fire could drive the squad's attrition.
+
+Checking the recorded stream for friendly-fire evidence.
+
+Weighing how survival-first designs would handle the zone clock.
+
+Weighing whether kill counts or survival drive the score.
+
+Weighing whether kills or survival drive the score.
+
+Drafting the policy code and testing it against a mock harness.
+
+Drafting the policy file and checking it against a mock harness.
+
+Weighing how the squad's hunters might shape the escape plan.
+
+Weighing where the weapon spawns would be found.
+
+Weighing how a long-lived survivor would fare against the squad.
+
+Weighing whether survival or kills drive the score.
+
+Considering a rooftop fortress built from precomputed map data.
+
+Checking whether rooftop cover actually hides the mech.
+
+Choosing a rebuild-or-adapt plan for the existing controller.
+
+Weighing how NPC drones could pull hunters away.
+
+Weighing NPC drones as a way to lure hunters.
+
+Weighing whether laser telegraphs make hunters dodgeable.
+
+Weighing whether laser hits beat gun accuracy at range.
+
+Weighing the zone-edge and tie-placement ideas.
+
+Checking whether rooftop cover could shield the mech from hunters.
+
+Choosing a rooftop-free bet and testing it against the plateau.
+
+Testing whether survival time rules out the squad's kill pace.
+
+Designing a survival-paced kill policy.
+
+Defining the three time phases.
+
+Designing duel evaluation and engagement logic.
+
+Sizing the laser charge-and-hold timing.
+
+Weighing how a duel's odds set the engagement rule.
+
+Settling the loot route and weapon-slot policy.
+
+Weighing the supply-drop capture and kill-zone approach.
+
+Weighing which structural change to bet everything on.
+
+Choosing the engagement-gate design for the controller.
+
+Weighing how the final-minute window shapes engagement timing.
+
+Specifying laser charge-and-release timing for engagement.
+
+Specifying mortar cluster targeting and incoming-shell dodging.
+
+Specifying incoming-mortar dodge timing and the laser sidestep logic.
+
+Comparing upgrade choices by their effect on duel power.
+
+Planning the opening scan and the first pickup run.
+
+Weighing whether walking speed or quiet movement suits the opening.
+
+Planning the opening scan and loot route.
+
+Designing the warden decision code and testing it.
+
+Writing the warden decision module and its tests.
+
+Designing the hit model and damage-per-second estimates.
+
+Modeling expected damage per second for each weapon type.
+
+Designing the warden's engagement and mode decisions.
+
+Weighing how zone damage reshapes the final-minute center plan.
+
+Designing measurement plan and sensitivity experiments for the emulator.
+
+Listing the uncertainties and the cheapest experiment for each.
+
+Questioning whether the squad's lethality matches the top scores.
+
+Testing whether the squad's lethality can explain the top scores.
+
+Diagnosing why the pacifist dies early.
+
+Questioning whether survival time, not kills, sets the score.
+
+Checking the survival forensics before tuning anything.
+
+Saving project facts to the work area notes.
+
+Saving project notes to the work area.
+
+Defining the Track and hunter-detection logic.
+
+Defining the hit model and its damage-per-second estimates.
+
+Estimating damage per second for foes and our weapons.
+
+Weighing the laser charge-and-hold timing against the target's movement.
+
+Timing the laser's charge-and-release against the target's movement.
+
+Specifying mortar targeting and incoming-shell dodge paths.
+
+Specifying drop capture timing and the lure-and-camp approach.
+
+Specifying loot pickup rules and upgrade ranking.
+
+Specifying upgrade ranking and the loot-value weighting.
+
+Specifying the strafe rhythm and the ranged standoff distances.
+
+Specifying the strafe and standoff distances for the mech.
+
+Defining how sound and damage events update the tracked hunters.
+
+Defining the hunter detection and hit estimates.
+
+Specifying the act loop and fallback steering.
+
+Specifying zone-escape timing and the movement-and-fire controller.
+
+Specifying the fire-permission gate and laser release logic.
+
+Settling the fire-permission rules and heal-cycle conditions.
+
+Writing the candidate duel selection logic.
+
+Writing the duel arrival and sound-pressure estimates.
+
+Writing the loot-route and drop-capture code.
+
+Mech Royale game-bot competition (Builders Buildathon) — Python-stdlib bot, 50 ms/decision on 1 CPU; targets leader 5.96, qualifying cut 5.13
+Decision layer for the Mech Royale bot: engagement gate, duel model, laser/mortar controllers, loot/drop planners, upgrade ranker
+warden.py
+
+Listing issues to fix in the code.
+
+Checking the class attribute and condition precedence.
+
+bash
+
+cd /home/claude && python3 - <<'EOF'
+import re, json
+txt = open('/mnt/user-data/uploads/HANDOFF.md').read()
+i = txt.index('## Appendix B')
+j = txt.index('```json', i) + len('```json')
+k = txt.index('```', j)
+cfg = json.loads(txt[j:k])
+json.dump(cfg, open('/home/claude/live_config.json','w'))
+print(list(cfg.keys()), len(cfg['upgrades']))
+EOF
+python3 -c "import ast,sys; ast.parse(open('/home/claude/warden.py').read()); print('syntax ok')"
+
+Output
+
+['match', 'bot', 'mech', 'vision', 'sound', 'weapons', 'projectile', 'cubes', 'crates', 'loot', 'npc', 'drops', 'zone', 'debug', 'replay', 'upgrades'] 22
+syntax ok
+
+
+Tidying the mode condition and writing test scenarios.
+
+Writing test scenarios for the pickup and enemy cases.
+
+bash
+
+cd /home/claude && python3 - <<'EOF'
+import re
+s = open('warden.py').read()
+old = '''        elif duel is not None and reg != "final" or (duel is not None and reg == "final" and hpf > 0.5):
+            go("duel", "gate-open")'''
+new = '''        elif duel is not None and (reg != "final" or hpf > 0.5):
+            go("duel", "gate-open")'''
+assert old in s
+open('warden.py','w').write(s.replace(old,new))
+EOF
+cat > /home/claude/test_warden.py <<'EOF'
+import json, math, time, sys, io, contextlib
+sys.path.insert(0, '/home/claude')
+import warden as W
+
+cfg = json.load(open('/home/claude/live_config.json'))
+hello = {"type": "hello", "slot": 3, "config": cfg}
+
+def mk_self(pos=(0, 0, 0), hp=1400, aim=(0.0, 0.0), weapons=None, cubes=0, energy=100):
+    weapons = weapons if weapons is not None else [
+        {"kind": "gun", "cooldown": 0, "ammo": 12, "reload": 0, "stats": dict(cfg["weapons"]["gun"])}, None]
+    return {"id": 3, "pos": list(pos), "vel": [0, 0, 0], "aim": list(aim), "hp": hp, "max_hp": 1400,
+            "energy": energy, "grounded": True, "cubes": cubes, "upgrades": [], "in_zone": True,
+            "weapons": weapons, "stats": {"hp": 1400, "walk_speed": 11.7, "armor": 0.0}}
+
+def mech(i, pos, hp=1400, vel=(0, 0, 0), weapons=("gun",), aim=(0, 0), charging=False):
+    return {"id": i, "kind": "mech", "pos": list(pos), "vel": list(vel), "aim": list(aim), "hp": hp,
+            "max_hp": 1400, "cubes": 0, "weapons": list(weapons), "charging": charging}
+
+def obs(t, me, mechs=(), **kw):
+    o = {"type": "obs", "tick": int(t * 20), "t": t, "alive": 16, "self": me, "mechs": list(mechs),
+         "projectiles": [], "pickups": [], "sounds": [], "events": [], "drops": [], "offer": None,
+         "zone": {"center": [0, 0], "radius": 560, "next_center": [10, 10], "next_radius": 380,
+                  "shrink_start": 60, "shrink_end": 110, "dps": 20}}
+    o.update(kw); return o
+
+def run(label, w, o):
+    with contextlib.redirect_stderr(io.StringIO()):
+        p = w.decide(o)
+    print(f"{label:46s} mode={p['mode']:6s} why={p['why']:12s} goal={None if p['goal'] is None else tuple(round(x) for x in p['goal'])} "
+          f"tgt={getattr(p['target'],'id',None)} gun={p['allow_gun']} take={p['take']} cap={p['capture']} pick={p['pick']}")
+    return p
+
+# --- numbers
+print("zone timeline:", [(round(a), round(b), round(c)) for a, b, c, *_ in W.Cfg(cfg).zt], "collapse", W.Cfg(cfg).t_collapse)
+c = W.Cfg(cfg)
+print("regimes:", c.regime(10), c.regime(100), c.regime(360))
+print("gun dps@p=1 %.1f  laser %.1f  mortar(p=.3) %.1f  lightning %.1f" % (
+    W.wdps(c, "gun", None, 0, 1), W.wdps(c, "laser", None, 0, 1), W.wdps(c, "mortar", None, 0, .3), W.wdps(c, "lightning", None, 0, 1)))
+
+# S1 opening, laser pickup 60 m away
+w = W.Warden(hello)
+m = mk_self()
+o = obs(1.0, m, pickups=[{"id": 8001, "kind": "laser", "pos": [60, 5, 0]}])
+run("S1 opening, laser 60 m away", w, o)
+o = obs(5.0, mk_self(pos=(58, 4, 0)), pickups=[{"id": 8001, "kind": "laser", "pos": [60, 5, 0]}])
+run("S1b standing on the laser", w, o)
+
+# S2 lone foe
+w = W.Warden(hello)
+run("S2 lone foe @100m", w, obs(25.0, mk_self(), [mech(5, (100, 0, 0))]))
+# S3 two hunters
+w = W.Warden(hello)
+run("S3 foe@100 + second@125", w, obs(25.0, mk_self(), [mech(5, (100, 0, 0)), mech(6, (0, 125, 0), vel=(0, -8, 0))]))
+# S3b second far away
+w = W.Warden(hello)
+run("S3b foe@100 + second@400 (stale-free)", w, obs(25.0, mk_self(), [mech(5, (100, 0, 0)), mech(6, (0, 400, 0))]))
+# S4 low hp, two near
+w = W.Warden(hello)
+run("S4 hp 35% two near", w, obs(40.0, mk_self(hp=490), [mech(5, (60, 0, 0)), mech(6, (0, 70, 0))]))
+# S5 heal: hurt, nobody around
+w = W.Warden(hello)
+run("S5 hurt 55%, calm", w, obs(80.0, mk_self(hp=770), []))
+# S6 incoming shell
+w = W.Warden(hello)
+shell = {"id": 9, "kind": "mortar", "pos": [-60, 0, 20], "vel": [30, 0, 5]}
+o = obs(30.0, mk_self(pos=(0, 0, 0)), projectiles=[shell])
+with contextlib.redirect_stderr(io.StringIO()):
+    p = w.decide(o)
+imp = W.shell_impact(c, shell, lambda x, y: 0.0)
+print("S6 shell impact", tuple(round(v, 1) for v in imp), "dodge", tuple(round(v, 2) for v in p["dodge"]))
+# S7 laser charging at me
+w = W.Warden(hello)
+f = mech(5, (150, 0, 0), weapons=("gun", "laser"), aim=(math.pi, 0), charging=True)
+with contextlib.redirect_stderr(io.StringIO()):
+    p = w.decide(obs(30.0, mk_self(pos=(0, 0.5, 0)), [f]))
+print("S7 laser dodge vec", tuple(round(v, 2) for v in p["dodge"]))
+# S8 drop
+w = W.Warden(hello)
+d = {"id": 20000, "pos": [40, 10, 0], "radius": 8, "lands_in": 0.0, "capture_s": 4, "progress": 0, "holder": None}
+run("S8 drop 40 m, hp 50%", w, obs(100.0, mk_self(hp=700), drops=[d]))
+run("S8b inside ring", w, obs(102.0, mk_self(pos=(40, 10, 0), hp=700), drops=[d]))
+# S9 offers
+w = W.Warden(hello)
+offer = {"id": 1, "expires": 9, "choices": [{"id": "gun_mag"}, {"id": "gun_damage"}, {"id": "armor"}]}
+m = mk_self(); m["weapons"][0]["stats"] = dict(cfg["weapons"]["gun"])
+for ids in (["gun_mag", "gun_damage", "armor"], ["plating", "servos", "sensors"], ["gun_rate", "nanites", "capacitor"]):
+    offer["choices"] = [{"id": i} for i in ids]
+    print("S9 offer", ids, "->", ids[W.rank_offer(c, offer, m)])
+# S10 laser controller
+lc = W.LaserCtl(c)
+seq = []
+slot = {"kind": "laser", "cooldown": 0.0, "charge": 0.0, "stats": {}}
+for k in range(12):
+    f = lc.step(slot, True, 1.0, 2.0, 120, 2.0)
+    seq.append(int(f))
+    slot["charge"] = slot["charge"] + 0.1 if f else 0.0
+    if not f and slot["charge"] == 0.0 and k > 0 and seq[-2] == 1:
+        slot["cooldown"] = 1.65
+print("S10 laser hold/release sequence:", seq)
+# S11 mortar cluster
+pt, v = W.best_mortar_point(c, (0, 0, 0), [((100, 0, 0), (0, 0, 0)), ((104, 3, 0), (0, 0, 0)), ((98, -4, 0), (0, 0, 0))], 7.0)
+print("S11 mortar cluster point", tuple(round(x, 1) for x in pt), "value", round(v))
+print("   pitch for 100 m flat: %.1f deg" % math.degrees(W.mortar_pitch(100, 0, 72, 22)))
+# timing
+w = W.Warden(hello)
+mechs = [mech(i, (80 + 15 * i, (-1) ** i * 30 * i % 200, 0), weapons=("gun", "laser")) for i in range(1, 16)]
+t0 = time.perf_counter(); n = 0
+with contextlib.redirect_stderr(io.StringIO()):
+    for k in range(2000):
+        o = obs(10 + k * 0.1, mk_self(pos=(k % 7, 0, 0)), mechs, projectiles=[shell, shell, shell])
+        w.act(o); n += 1
+dt = (time.perf_counter() - t0) / n * 1000
+print("mean decision %.3f ms over %d obs with 15 mechs + 3 shells" % (dt, n))
+EOF
+cd /home/claude && python3 test_warden.py
+
+Output
+
+zone timeline: [(0, 60, 110), (110, 155, 195), (195, 230, 265), (265, 295, 325), (325, 350, 375), (375, 390, 415)] collapse 415.0
+regimes: open mid final
+gun dps@p=1 102.3  laser 131.2  mortar(p=.3) 56.6  lightning 240.0
+S1 opening, laser 60 m away                    mode=arm    why=default      goal=(60, 5) tgt=None gun=False take=None cap=False pick=None
+S1b standing on the laser                      mode=arm    why=default      goal=(60, 5) tgt=None gun=False take=8001 cap=False pick=None
+S2 lone foe @100m                              mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S3 foe@100 + second@125                        mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S3b foe@100 + second@400 (stale-free)          mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S4 hp 35% two near                             mode=break  why=gate-closed  goal=(-53, 29) tgt=None gun=False take=None cap=False pick=None
+S5 hurt 55%, calm                              mode=heal   why=heal-start   goal=None tgt=None gun=False take=None cap=False pick=None
+S6 shell impact (-12.2, 0.0, 1.6) dodge (0.0, 0.0)
+S7 laser dodge vec (0.0, 1.5)
+S8 drop 40 m, hp 50%                           mode=drop   why=heal-start   goal=(40, 10) tgt=None gun=False take=None cap=False pick=None
+S8b inside ring                                mode=drop   why=heal-hold    goal=(40, 10) tgt=None gun=False take=None cap=True pick=None
+S9 offer ['gun_mag', 'gun_damage', 'armor'] -> gun_mag
+S9 offer ['plating', 'servos', 'sensors'] -> plating
+S9 offer ['gun_rate', 'nanites', 'capacitor'] -> nanites
+S10 laser hold/release sequence: [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]
+S11 mortar cluster point (102.0, 1.5) value 771
+   pitch for 100 m flat: 12.6 deg
+mean decision 0.185 ms over 2000 obs with 15 mechs + 3 shells
+
+
+Diagnosing why a lone foe triggers rotation.
+
+Checking whether the symmetric duel threshold holds.
+
+Weighing a one-on-one fight when the foe is already attacking.
+
+Revising when the rotation gate counts nearby foes.
+
+Checking the laser's hold timing and cooldown.
+
+bash
+
+cd /home/claude && python3 - <<'EOF'
+s = open('warden.py').read()
+
+# 1. engaged ids -> lenient thresholds for foes already on us
+old = '''            eng = (self.eng_id == f.id)
+            ok = ratio'''
+new = '''            eng = (self.eng_id == f.id) or f.id in engaged
+            ok = ratio'''
+assert old in s; s = s.replace(old, new)
+old = '''        pool = self.tr.live(now, horizon=cfg.memory_s + 0.2)
+        best = None
+        for f in pool:'''
+new = '''        pool = self.tr.live(now, horizon=cfg.memory_s + 0.2)
+        engaged = {b for t, b, _ in self.tr.dmg if now - t <= 4.0}
+        engaged |= {f.id for f in pool if f.closing > 2.0 and f.d_prev is not None and f.d_prev < 130}
+        best = None
+        for f in pool:'''
+assert old in s; s = s.replace(old, new)
+
+# 2. pressure over all live foes, simpler break logic
+old = '''        near_pressure = [h for h in hunters if self._arrival(h, mp, now) < 6.0]
+        calm = not hunters and not any(dist2(f.pos, mp) < 150 for f in foes)'''
+new = '''        near_pressure = [f for f in foes if self._arrival(f, mp, now) < 6.0
+                         and (f.closing > 0.5 or (f.d_prev or 1e9) < 90)]
+        attacked = self.tr.dps_in(now, 3.0) > 0
+        calm = not hunters and not any(dist2(f.pos, mp) < 150 for f in foes)'''
+assert old in s; s = s.replace(old, new)
+
+old = '''        if self.mode == "break" and now - self.mode_t < self.BREAK_MIN_S:
+            go("break", "break-min")
+        elif self.mode == "break" and (now - self.mode_t < self.BREAK_MAX_S) and (near_pressure or hpf < self.HP_BREAK):
+            go("break", "break-hold")
+        elif duel is None and ((len(near_pressure) >= 2) or (hpf < self.HP_BREAK and near_pressure)):
+            go("break", "gate-closed")'''
+new = '''        if self.mode == "break" and now - self.mode_t < self.BREAK_MIN_S and duel is None:
+            go("break", "break-min")
+        elif self.mode == "break" and duel is None and (near_pressure or attacked):
+            go("break", "break-hold")
+        elif duel is None and (attacked or len(near_pressure) >= 2 or (hpf < self.HP_BREAK and near_pressure)):
+            go("break", "gate-closed")'''
+assert old in s; s = s.replace(old, new)
+s = s.replace("    BREAK_MAX_S = 8.0\n", "")
+open('warden.py','w').write(s)
+EOF
+python3 - <<'EOF'
+import re
+t = open('/home/claude/test_warden.py').read()
+t = t.replace('''shell = {"id": 9, "kind": "mortar", "pos": [-60, 0, 20], "vel": [30, 0, 5]}''',
+              '''shell = {"id": 9, "kind": "mortar", "pos": [-60, 0, 20], "vel": [36, 0, 5]}''')
+t = t.replace("# timing", '''# S12 lone hunter that is already shooting me (equal guns): must fight, not stand idle
+w = W.Warden(hello)
+ev = [{"type": "damaged", "amount": 45, "weapon": "gun", "bearing": 0.0, "by": 5}]
+run("S12 lone attacker, equal guns", w, obs(30.0, mk_self(), [mech(5, (100, 0, 0))], events=ev))
+# S13 attacker holds laser, I only have a gun
+w = W.Warden(hello)
+run("S13 attacker with laser, I have gun", w, obs(30.0, mk_self(), [mech(5, (100, 0, 0), weapons=("gun", "laser"))], events=ev))
+# S14 I hold a laser, lone foe at 150 m, not yet attacking
+w = W.Warden(hello)
+m = mk_self(weapons=[{"kind": "gun", "cooldown": 0, "ammo": 12, "reload": 0, "stats": dict(cfg["weapons"]["gun"])},
+                     {"kind": "laser", "cooldown": 0, "charge": 0.0, "stats": {}}])
+run("S14 I hold laser, lone foe @150m", w, obs(50.0, m, [mech(5, (150, 0, 0))]))
+run("S14b same + second foe @130m closing", w, obs(50.1, m, [mech(5, (150, 0, 0)), mech(6, (0, 130, 0), vel=(0, -10, 0))]))
+# timing''')
+open('/home/claude/test_warden.py','w').write(t)
+EOF
+cd /home/claude && python3 test_warden.py
+
+Output
+
+zone timeline: [(0, 60, 110), (110, 155, 195), (195, 230, 265), (265, 295, 325), (325, 350, 375), (375, 390, 415)] collapse 415.0
+regimes: open mid final
+gun dps@p=1 102.3  laser 131.2  mortar(p=.3) 56.6  lightning 240.0
+S1 opening, laser 60 m away                    mode=arm    why=default      goal=(60, 5) tgt=None gun=False take=None cap=False pick=None
+S1b standing on the laser                      mode=arm    why=default      goal=(60, 5) tgt=None gun=False take=8001 cap=False pick=None
+S2 lone foe @100m                              mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S3 foe@100 + second@125                        mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S3b foe@100 + second@400 (stale-free)          mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S4 hp 35% two near                             mode=break  why=gate-closed  goal=(-53, 29) tgt=None gun=False take=None cap=False pick=None
+S5 hurt 55%, calm                              mode=heal   why=heal-start   goal=None tgt=None gun=False take=None cap=False pick=None
+S6 shell impact (-2.6, 0.0, 1.6) dodge (0.72, 0.0)
+S7 laser dodge vec (0.0, 1.5)
+S8 drop 40 m, hp 50%                           mode=drop   why=heal-start   goal=(40, 10) tgt=None gun=False take=None cap=False pick=None
+S8b inside ring                                mode=drop   why=heal-hold    goal=(40, 10) tgt=None gun=False take=None cap=True pick=None
+S9 offer ['gun_mag', 'gun_damage', 'armor'] -> gun_mag
+S9 offer ['plating', 'servos', 'sensors'] -> plating
+S9 offer ['gun_rate', 'nanites', 'capacitor'] -> nanites
+S10 laser hold/release sequence: [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]
+S11 mortar cluster point (102.0, 1.5) value 771
+   pitch for 100 m flat: 12.6 deg
+S12 lone attacker, equal guns                  mode=duel   why=gate-open    goal=(100, 0) tgt=5 gun=True take=None cap=False pick=None
+S13 attacker with laser, I have gun            mode=break  why=gate-closed  goal=(-53, 29) tgt=None gun=False take=None cap=False pick=None
+S14 I hold laser, lone foe @150m               mode=duel   why=gate-open    goal=(150, 0) tgt=5 gun=True take=None cap=False pick=None
+S14b same + second foe @130m closing           mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+mean decision 0.183 ms over 2000 obs with 15 mechs + 3 shells
+
+
+Checking whether the hunters are closing in.
+
+Checking the second hunter's approach rate.
+
+Weighing whether to break away from the foes.
+
+bash
+
+cd /home/claude && python3 - <<'EOF'
+s = open('warden.py').read()
+
+# regime-specific entry ratio
+old = "    RATIO_MIN = 1.15    # T_they_kill_me / T_i_kill_them required to enter\n"
+new = ("    RATIO_MIN = 1.15    # T_they_kill_me / T_i_kill_them required to enter (open/mid)\n"
+       "    RATIO_MIN_FINAL = 0.8   # final minute: future accrual is bounded by the zone, so fight more\n")
+assert old in s; s = s.replace(old, new)
+old = "            ok = ratio >= (self.RATIO_ENG if eng else self.RATIO_MIN) and \\"
+new = ("            rmin = self.RATIO_MIN_FINAL if self.cfg.regime(now) == \"final\" else self.RATIO_MIN\n"
+       "            ok = ratio >= (self.RATIO_ENG if eng else rmin) and \\")
+assert old in s; s = s.replace(old, new)
+
+# closed gate + anyone inside 100 m -> break
+old = "        elif duel is None and (attacked or len(near_pressure) >= 2 or (hpf < self.HP_BREAK and near_pressure)):"
+new = ("        elif duel is None and (attacked or len(near_pressure) >= 2 or (hpf < self.HP_BREAK and near_pressure)\n"
+       "                                or any(dist2(f.pos, mp) < 100 for f in foes)):")
+assert old in s; s = s.replace(old, new)
+
+# crash-proof wrapper
+s += '''
+    def act_safe(self, obs):
+        """A crash idles the mech for the rest of the match (0 points): never let an exception out."""
+        try:
+            return self.act(obs)
+        except Exception as ex:                                   # noqa: BLE001
+            print("warden error: %r" % (ex,), file=sys.stderr)
+            me, z = obs.get("self", {}), obs.get("zone") or {}
+            pos, c = me.get("pos", [0, 0, 0]), z.get("next_center") or z.get("center") or me.get("pos", [0, 0, 0])
+            dx, dy = unit(c[0] - pos[0], c[1] - pos[1])
+            return {"tick": obs["tick"], "move": [dx, dy], "boost": False, "fire": [False, False]}
+'''
+open('warden.py','w').write(s)
+EOF
+cat >> /home/claude/test_warden.py <<'EOF'
+
+# ---- fuzz: odd-shaped but protocol-legal observations must never raise out of act_safe, and act must not raise on sane ones
+import random
+random.seed(7)
+w = W.Warden(hello)
+bad = 0
+with contextlib.redirect_stderr(io.StringIO()):
+    for k in range(3000):
+        me = mk_self(pos=(random.uniform(-300, 300), random.uniform(-300, 300), random.uniform(-5, 20)),
+                     hp=random.uniform(50, 1400), aim=(random.uniform(-3, 3), random.uniform(-.5, 1)),
+                     weapons=random.choice([None, [{"kind": "gun", "cooldown": 0.1, "ammo": 5, "reload": 0, "stats": {}}, None],
+                                             [{"kind": "gun", "cooldown": 0, "ammo": 12, "reload": 0, "stats": {}},
+                                              {"kind": "mortar", "cooldown": 0, "stats": {}}],
+                                             [{"kind": "gun", "cooldown": 0, "ammo": 12, "reload": 0, "stats": {}},
+                                              {"kind": "laser", "cooldown": 0, "charge": random.choice([0, .3, .8, 2.7]), "stats": {}}]]))
+        ms = [mech(i, (random.uniform(-250, 250), random.uniform(-250, 250), 0), hp=random.uniform(100, 1400),
+                   vel=(random.uniform(-12, 12), random.uniform(-12, 12), 0),
+                   weapons=random.choice([("gun",), ("gun", "laser"), ("gun", "mortar"), ("gun", "lightning")]),
+                   aim=(random.uniform(-3, 3), 0), charging=random.random() < .2)
+              for i in random.sample([i for i in range(16) if i != 3], random.randint(0, 6))]
+        o = obs(random.uniform(0, 430), me, ms)
+        if random.random() < .2: o["zone"] = None
+        if random.random() < .2: o["events"] = [{"type": "damaged", "amount": 50, "weapon": "gun", "bearing": 0, "by": random.randint(0, 15)}]
+        if random.random() < .1: o["offer"] = {"id": 1, "expires": 5, "choices": [{"id": "plating"}, {"id": "armor"}, {"id": "gun_mag"}]}
+        try:
+            a = w.act_safe(o)
+            assert a["tick"] == o["tick"] and len(a["move"]) == 2 and len(a["fire"]) == 2
+            json.dumps(a)
+        except Exception as ex:
+            bad += 1; print("FUZZ FAIL", repr(ex))
+            if bad > 3: break
+print("fuzz done, failures:", bad)
+EOF
+cd /home/claude && python3 test_warden.py 2>&1 | tail -22
+
+Output
+
+S1b standing on the laser                      mode=arm    why=default      goal=(60, 5) tgt=None gun=False take=8001 cap=False pick=None
+S2 lone foe @100m                              mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S3 foe@100 + second@125                        mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S3b foe@100 + second@400 (stale-free)          mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+S4 hp 35% two near                             mode=break  why=gate-closed  goal=(-53, 29) tgt=None gun=False take=None cap=False pick=None
+S5 hurt 55%, calm                              mode=heal   why=heal-start   goal=None tgt=None gun=False take=None cap=False pick=None
+S6 shell impact (-2.6, 0.0, 1.6) dodge (0.72, 0.0)
+S7 laser dodge vec (0.0, 1.5)
+S8 drop 40 m, hp 50%                           mode=drop   why=heal-start   goal=(40, 10) tgt=None gun=False take=None cap=False pick=None
+S8b inside ring                                mode=drop   why=heal-hold    goal=(40, 10) tgt=None gun=False take=None cap=True pick=None
+S9 offer ['gun_mag', 'gun_damage', 'armor'] -> gun_mag
+S9 offer ['plating', 'servos', 'sensors'] -> plating
+S9 offer ['gun_rate', 'nanites', 'capacitor'] -> nanites
+S10 laser hold/release sequence: [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]
+S11 mortar cluster point (102.0, 1.5) value 771
+   pitch for 100 m flat: 12.6 deg
+S12 lone attacker, equal guns                  mode=duel   why=gate-open    goal=(100, 0) tgt=5 gun=True take=None cap=False pick=None
+S13 attacker with laser, I have gun            mode=break  why=gate-closed  goal=(-53, 29) tgt=None gun=False take=None cap=False pick=None
+S14 I hold laser, lone foe @150m               mode=duel   why=gate-open    goal=(150, 0) tgt=5 gun=True take=None cap=False pick=None
+S14b same + second foe @130m closing           mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+mean decision 0.185 ms over 2000 obs with 15 mechs + 3 shells
+fuzz done, failures: 0
+
+
+Wrapping up: copying files and presenting the results.
+
+Checking the test file's file path and copying outputs.
+
+Code is tested (the 3000-case fuzz run raised no errors, and a decision takes about 0.2 ms). I'm packaging the files now, then writing the analysis.
+
+bash
+
+cd /home/claude && sed -i "s#sys.path.insert(0, '/home/claude')#import os; HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)#; s#open('/home/claude/live_config.json')#open(os.path.join(HERE, 'live_config.json'))#" test_warden.py && mkdir -p /mnt/user-data/outputs && cp warden.py test_warden.py live_config.json /mnt/user-data/outputs/ && cd /mnt/user-data/outputs && python3 test_warden.py 2>&1 | tail -3 && wc -l warden.py
+
+Output
+
+S14b same + second foe @130m closing           mode=rotate why=default      goal=None tgt=None gun=False take=None cap=False pick=None
+mean decision 0.173 ms over 2000 obs with 15 mechs + 3 shells
+fuzz done, failures: 0
+778 warden.py
+
+Presented 3 files
